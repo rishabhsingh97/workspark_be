@@ -1,0 +1,173 @@
+name: workspark
+services:
+
+  redis-db:
+    image: redis:latest
+    container_name: redis-db
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "-h", "localhost", "-p", "6379", "ping"]
+      interval: 20s
+      timeout: 20s
+      retries: 3
+      start_period: 20s
+
+  mysql-db:
+    container_name: mysql-db
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      MY_SQL_DATABSE: workspark
+      MYSQL_USER: workspark_app
+      MYSQL_PASSWORD: reconex@123
+      MYSQL_DATABASE: workspark
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  config-service:
+    container_name: config-service
+    image: config-service:latest
+    build:
+      context: ./../configservice
+      dockerfile: Dockerfile
+    depends_on:
+      mysql-db:
+          condition: service_healthy
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/workspark?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8761/eureka
+      EUREKA_INSTANCE_HOSTNAME: config-service
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8081/config/actuator/health" ]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  discovery-service:
+    container_name: discovery-service
+    image: discovery-service:latest
+    build:
+      context: ./../discoveryservice
+      dockerfile: Dockerfile
+    depends_on:
+      config-service:
+        condition: service_healthy
+    ports:
+      - "8761:8761"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8761/eureka/apps/configservice" ]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  user-service:
+    container_name: user-service
+    image: user-service:latest
+    build:
+      context: ./../userservice
+      dockerfile: Dockerfile
+      args:
+        GITLAB_PERSONAL_ACCESS_TOKEN: ${GITLAB_PERSONAL_ACCESS_TOKEN}
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+    ports:
+      - "8085:8085"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/workspark?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8761/eureka
+      EUREKA_INSTANCE_HOSTNAME: user-service
+      SPRING_DATA_REDIS_HOST: redis-db
+      SPRING_DATA_REDIS_PORT: 6379
+
+  authentication-service:
+    container_name: authentication-service
+    image: authentication-service:latest
+    build:
+      context: ./../authenticationservice
+      dockerfile: Dockerfile
+      args:
+        GITLAB_PERSONAL_ACCESS_TOKEN: ${GITLAB_PERSONAL_ACCESS_TOKEN}
+    depends_on:
+      redis-db:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/workspark?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8761/eureka
+      EUREKA_INSTANCE_HOSTNAME: authentication-service
+      SPRING_DATA_REDIS_HOST: redis-db
+      SPRING_DATA_REDIS_PORT: 6379
+      SPRING_DATA_REDIS_CONNECTTIMEOUT: 10000
+      LOGGING_LEVEL: debug
+
+  nomination-service:
+    container_name: nomination-service
+    image: nomination-service:latest
+    build:
+      context: ./../nominationservice
+      dockerfile: Dockerfile
+      args:
+        GITLAB_PERSONAL_ACCESS_TOKEN: ${GITLAB_PERSONAL_ACCESS_TOKEN}
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+    ports:
+      - "8087:8087"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/workspark?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8761/eureka
+      EUREKA_INSTANCE_HOSTNAME: nomination-service
+      SPRING_DATA_REDIS_HOST: redis-db
+      SPRING_DATA_REDIS_PORT: 6379
+
+  api-gateway:
+    container_name: api-gateway
+    image: api-gateway:latest
+    build:
+      context: ./../apigateway
+      dockerfile: Dockerfile
+      args:
+        GITLAB_PERSONAL_ACCESS_TOKEN: ${GITLAB_PERSONAL_ACCESS_TOKEN}
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8761/eureka
+      SPRING_CLOUD_CONFIG_ENABLED: true
+      SPRING_CLOUD_CONFIG_DISCOVERY_SERVICEID: configservice
+      EUREKA_INSTANCE_HOSTNAME: api-gateway
+
+volumes:
+  mysql_data:
+    name: mysql_data
+  redis_data:
+    name: redis_data

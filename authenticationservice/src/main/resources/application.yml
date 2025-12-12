@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: authenticationservice
+  cloud:
+    config:
+      label: latest
+      discovery:
+        enabled: true
+        service-id: configservice
+  config:
+    import: 'optional:configserver:'
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/workspark
+    username: root # update username
+    password: root
+
+server:
+  port: 8082
+  servlet:
+    context-path: /auth
+
+localhost:
+  url: http://localhost:8080
+  description: Api Gateway - Local
+
+redirectUrl: http://localhost:4200
+
+jwt:
+  secret: worksparkMindfire
+  expiration: 3600000
+  refreshExpiration: 86400000
+
+logging:
+  level:
+    root: INFO
+
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${server.port}
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+workspark:
+  security: false
+
+
+

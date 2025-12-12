@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: v_2_0_8
+      author: "Admin"
+      comment: "Global specific schema created..."
+      sqlFile:
+        encoding: utf8
+        relativeToChangelogFile: true
+        stripComments: true
+        path: "global-query.sql"

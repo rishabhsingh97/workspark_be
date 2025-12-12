@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Welcome to [Your Company/Platform Name]!</title>
+    <style>
+        /* Basic styling for the email */
+        body {
+            font-family: sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Welcome, <span th:text="${name}"></span>!</h1>
+
+<p>Congratulations on signing up for [Your Company/Platform Name]! </p>
+
+<p th:if="${hasSpecialOffer}">You've received a special offer!
+    <span th:text="${specialOfferMessage}"></span></p>
+
+<p>Get ready to explore [mention key features, e.g., exclusive content, a vibrant community, powerful tools].
+    We're excited to help you [mention user benefits, e.g., achieve your fitness goals, learn new skills, connect with like-minded individuals].</p>
+
+<p>To get started, please <a th:href="@{http://localhost:8080/verify-email(token=${verificationToken})}">verify your email address here</a>.</p>
+
+<p>Explore our platform and discover all it has to offer.</p>
+
+<p>We're here to support you every step of the way. If you have any questions, please don't hesitate to contact us at <a href="mailto:support@yourcompany.com">support@yourcompany.com</a>.</p>
+
+<p>Welcome aboard!</p>
+
+<p>Sincerely,</p>
+<p>The [Your Company/Platform Name] Team</p>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+
+spring:
+  application:
+    name: apigateway
+  cloud:
+    gateway:
+      routes:
+        ## Api Routes
+        - id: authentication-api
+          uri: lb://authenticationservice
+          predicates:
+            - Path=/auth/**
+
+        - id: user-api
+          uri: lb://userservice
+          predicates:
+            - Path=/user/**
+
+        - id: nomination-api
+          uri: lb://nominationservice
+          predicates:
+            - Path=/nomination/**
+
+        - id: config-api
+          uri: lb://configservice
+          predicates:
+            - Path=/config/**
+
+        - id: certificate-api
+          uri: lb://certificateservice
+          predicates:
+            - Path=/certificate/**
+
+        ## Swagger Routes
+        - id: auth-swagger
+          uri: lb://authenticationservice
+          predicates:
+            - Path=/swagger/auth
+          filters:
+            - RewritePath=/swagger/?(?<segment>.*), /$\{segment}/public/api-docs
+
+        - id: user-swagger
+          uri: lb://userservice
+          predicates:
+            - Path=/swagger/user
+          filters:
+            - RewritePath=/swagger/?(?<segment>.*), /$\{segment}/public/api-docs
+
+        - id: nomination-swagger
+          uri: lb://nominationservice
+          predicates:
+            - Path=/swagger/nomination
+          filters:
+            - RewritePath=/swagger/?(?<segment>.*), /$\{segment}/public/api-docs
+
+        - id: config-swagger
+          uri: lb://configservice
+          predicates:
+            - Path=/swagger/config
+          filters:
+            - RewritePath=/swagger/?(?<segment>.*), /$\{segment}/public/api-docs
+
+        - id: certificate-swagger
+          uri: lb://certificateservice
+          predicates:
+            - Path=/swagger/certificate
+          filters:
+            - RewritePath=/swagger/?(?<segment>.*), /$\{segment}/public/api-docs
+
+    config:
+      label: latest
+      discovery:
+        enabled: true
+        service-id: configservice
+  config:
+    import: 'optional:configserver:'
+
+server:
+  port: 8080
+
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${server.port}
+    hostname: localhost
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+app:
+  whitelistedPaths:
+    - /*/public/**
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: Authentication Service
+        url: /swagger/auth
+      - name: User Service
+        url: /swagger/user
+      - name: Nomination Service
+        url: /swagger/nomination
+      - name: Config Service
+        url: /swagger/config
+      - name: Certificate Service
+        url: /swagger/certificate
+

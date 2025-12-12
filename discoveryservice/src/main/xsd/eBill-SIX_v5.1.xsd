@@ -1,0 +1,860 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://six-group.com/pns/networkpartner/v5/ebill/xml"
+            targetNamespace="http://six-group.com/pns/networkpartner/v5/ebill/xml"
+            elementFormDefault="qualified"
+            version="5.1.0">
+    <xsd:element name="advice">
+        <xsd:annotation>
+            <xsd:documentation>Notification (Avisierung)</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="tns:businessCase">
+                    <xsd:sequence>
+                        <xsd:element name="workflow" type="tns:workflow" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>Information about the workflow. Auxiliary data that can be used for pre-registering a notification in bookkeeping.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="bill">
+        <xsd:annotation>
+            <xsd:documentation>Invoice (Rechnung)</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="tns:businessCase">
+                    <xsd:sequence>
+                        <xsd:element name="singlePayment" type="tns:singlePayment" minOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>Single payment</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="workflow" type="tns:workflow" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>Information about the workflow. Auxiliary data that can be used for pre-registering an invoice in bookkeeping.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="creditNote">
+        <xsd:annotation>
+            <xsd:documentation>Credit note (Gutschrift)</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="tns:businessCase">
+                    <xsd:sequence>
+                        <xsd:element name="workflow" type="tns:workflow" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>Information about the workflow. Auxiliary data that can be used for pre-registering a credit note in bookkeeping.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="donationInquiry">
+        <xsd:annotation>
+            <xsd:documentation>Donation inquiry (Spendenanfrage)</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="tns:businessCase">
+                    <xsd:sequence>
+                        <xsd:element name="singlePayment" type="tns:singlePayment" minOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>Single payment</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="proposedDonationAmounts" type="tns:proposedDonationAmountsType" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>If proposed donation amounts are specified, the total and the payment information amount value must not be specified and vice versa. All amounts with a 'donationInquiry' must be greater or equal to the minimum amount value specified for donation inquiries.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="donationPurposes" type="tns:donationPurposesType" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>Optional list of donation purposes.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="workflow" type="tns:workflow" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>Information about the workflow. Auxiliary data that can be used for pre-registering an invoice in bookkeeping.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="instalmentBill">
+        <xsd:annotation>
+            <xsd:documentation>Instalment invoice (Ratenrechnung)</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="tns:businessCase">
+                    <xsd:sequence minOccurs="1">
+                        <xsd:element name="paymentsByInstalments" type="tns:paymentsByInstalments" minOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Possibility to offer payment of the invoice in instalments.
+
+                                    Instalment invoices can be submitted as multi-group-invoices or single-group-invoices.
+
+                                    Multi-groups: Invoices with several instalment groups to choose from. The invoice recipient can decide, with which instalment option the invoice will be paid. One of the instalments groups can contain a total instalment to be used for the payment of the entire invoice (isTotalPaymentOption, can only be set to "true" in one instalment group).
+
+                                    Single-groups: Invoice with only one instalment group. The invoice recipient can only pay with this instalment option.
+                                </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="workflow" type="tns:workflow" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>Information about the workflow. Auxiliary data that can be used for pre-registering an instalment invoice in bookkeeping.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="reminder">
+        <xsd:annotation>
+            <xsd:documentation>Reminder (Mahnung)</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="tns:businessCase">
+                    <xsd:sequence>
+                        <xsd:element name="singlePayment" type="tns:singlePayment" minOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>Single payment</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="workflow" type="tns:workflow" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>Information about the workflow. Auxiliary data that can be used for pre-registering a reminder in bookkeeping.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:complexType name="accountAndReference">
+        <xsd:sequence>
+            <xsd:element name="accountHolder" type="tns:accountHolderType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>In case the account holder differs from the biller use this element to provide the account holder name and address.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="generic" type="tns:accountIBANAndReference" minOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="accountHolderType">
+        <xsd:sequence>
+            <xsd:element name="name" type="tns:mandatoryStringWithMaxLength70" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Name of the account holder.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:choice>
+                <xsd:element name="structuredAddress" type="tns:postalAddress" minOccurs="1">
+                    <xsd:annotation>
+                        <xsd:documentation>Structured address of the account holder.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="unstructuredAddress" type="tns:unstructuredAddressType" minOccurs="1">
+                    <xsd:annotation>
+                        <xsd:documentation>Unstructured address of the account holder.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:choice>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="accountIBANAndReference">
+        <xsd:sequence>
+            <xsd:element name="referenceType" type="xsd:string" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Reference type of the structured reference.
+                        Following values are permitted:
+                        QRR - QR Reference
+                        SCOR - Creditor Reference (ISO 11649)
+                        NON - without reference
+                        IPI - IPI Reference (Note: the IPI receipt was eliminated by 31.03.2020)
+                    </xsd:documentation>
+                    <xsd:documentation>
+                        When using the QR-IBAN, the code QRR must be included.
+                        When using the IBAN, either the code SCOR, IPI or NON must be included.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="referenceStructured" type="tns:genericReferenceStructuredType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Reference number, structured payment reference.
+                        Note: the reference is either a QR reference, creditor reference (ISO 11649) or an IPI reference.
+
+                        QR Reference: 27 characters, numerical; check digit computation with Modulus 10 recursive (27th position of the reference).
+
+                        Creditor Reference (ISO 11649): up to 25 characters, alphanumeric.
+
+                        IPI Reference: 20 characters, alphanumeric; check digit computation with Modulus 97-10 (ISO 7064) (Note: the IPI receipt was eliminated by 31.03.2020)
+                    </xsd:documentation>
+                    <xsd:documentation>
+                        When using QR-IBAN, this element must be filled with the QR Reference.
+                        When using IBAN and referenceType SCOR, this element must be filled with the Creditor Reference.
+                        When using IBAN and referenceType IPI, this element must be filled with the IPI Reference.
+                        When using IBAN and referenceType NON, this element is not permitted to be filled.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="referenceUnstructured" type="tns:mandatoryStringWithMaxLength140" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Unstructured message</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="iban" type="tns:ibanType" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Credit account of the invoice issuer (IBAN or QR-IBAN). See also ISO 13616-1.
+                        The usage of IBAN or QR-IBAN is only permitted with country codes CH or LI and 21 alphanumeric characters.
+
+                        Example:    CH9300762011623852957
+                        LI21088100002324013AA
+                    </xsd:documentation>
+                    <xsd:documentation>
+                        Must contain country code CH or LI, otherwise the business case will be denied.
+
+                        Must be matching with a credit account that is specified in the infrastructure in the master data of the invoice issuer, otherwise the business case will be denied.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="amountType">
+        <xsd:sequence>
+            <xsd:element name="value" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Amount
+                        - max. 99'999'999.99 for invoices, payments by instalments, reminders, credit notes and donation inquiries
+                        - min. - 99'999'999.99, max 99'999'999.99 for advices
+                    </xsd:documentation>
+                    <xsd:documentation>
+                        - Amount must be greater than 0 for invoices, payments by instalments, reminders and donation inquiries.
+                        - Amount must be ≥ 0 for credit notes.
+                        - If an IBAN or QR-IBAN is used for invoices or payments by instalments, the amount does not have to be supplied (compatibility QR invoice).
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:decimal">
+                        <xsd:pattern value="[-+]?\d{1,8}(\.\d{0,2})?"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="currencyCode" type="tns:currencyCodeType" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Currency code according to ISO 4217</xsd:documentation>
+                    <xsd:documentation>When using QR-IBAN, only CHF and EUR are allowed.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="biller">
+        <xsd:sequence>
+            <xsd:element name="billerId" type="tns:billerIdType" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Unique identifier of the invoice issuer. billerID is assigned by the system and is unique across the entire system.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="legalName" type="tns:mandatoryStringWithMaxLength70" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Legal name of the invoice issuer.
+                        This name is also displayed in the invoice overview in the eBill customer portal.
+                    </xsd:documentation>
+                    <xsd:documentation>Must be matching with the legal name that is specified in the infrastructure in the master data of the invoice issuer, otherwise the business case will be denied.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="postalAddress" type="tns:postalAddress" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Address of the invoice issuer</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="billerIdType">
+        <xsd:restriction base="xsd:string">
+            <xsd:length value="14"/>
+            <xsd:pattern value="BIID[0-9]{10}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="billRecipient">
+        <xsd:sequence>
+            <xsd:choice>
+                <xsd:element name="emailAddress" type="tns:emailAddressType" minOccurs="1">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Email address of the invoice recipient.
+
+                            Email address is valid if it is specified in the current master data of the infrastructure and, in case it is marked as "historic", it has not been marked as "historic" for more than 15 months.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="enterpriseIdentificationNumber" type="tns:enterpriseIdentificationNumberType" minOccurs="1">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Enterprise Identification Number (UID) for companies as invoice recipients (in the context eBill for Business).
+
+                            UID is valid, if it is specified in the current master data of the infrastructure.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="billRecipientId" type="tns:billRecipientIdType" minOccurs="1">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Alternative unique identifier of the invoice recipient (also known as "PID"). It is recommended to use the Email Address (emailAddress) and not the billRecipientId.
+
+                            Example: 41010581998685440
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:choice>
+            <xsd:element name="name" type="tns:mandatoryStringWithMaxLength70" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>First and last name of the invoice recipient. Alternatively company name.</xsd:documentation>
+                    <xsd:documentation>
+                        Corresponds to the following element in pain.001:
+                        Payment Information
+                        +Ultimate Debtor
+                        ++Name
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="address" type="tns:billRecipientAddress" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Address of the invoice recipient</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="billRecipientAddress">
+        <xsd:sequence>
+            <xsd:choice>
+                <xsd:element name="structuredAddress" type="tns:postalAddress" minOccurs="1">
+                    <xsd:annotation>
+                        <xsd:documentation>Structured address</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="unstructuredAddress" type="tns:unstructuredAddressType" minOccurs="1">
+                    <xsd:annotation>
+                        <xsd:documentation>Unstructured address</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:choice>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="billRecipientIdType">
+        <xsd:restriction base="xsd:string">
+            <xsd:length value="17"/>
+            <xsd:pattern value="([0-9])*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="businessCase">
+        <xsd:sequence>
+            <xsd:element name="referenceNumber" type="tns:referenceNumberType" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Invoice reference/invoice number</xsd:documentation>
+                    <xsd:documentation>Must be unique for the invoice issuer.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="businessCaseDate" type="xsd:date" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Date of the business case</xsd:documentation>
+                    <xsd:documentation>
+                        At time of submission, cannot be older than 90 days.
+                        At time of submission, cannot be in the future.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="totalAmount" type="tns:amountType" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>The total amount (amount + currency code) of the business case, which is presented to the invoice recipient.</xsd:documentation>
+                    <xsd:documentation>The currency code has to be consistent for all amount types in this business case (single payment amount, proposed donation amounts, ...).</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="referencedBill" type="tns:referencedBill" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Reference to another business case of the same invoice issuer (e.g. in case of a reminder for an overdue invoice, or a corrected invoice for a previously erroneous invoice).
+
+                        Mandatory for reminders, however, the referenced bill does not necessarily have to be existent in the system.
+                        For donation inquiries, referencing bills is not supported.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="biller" type="tns:biller" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Invoice issuer</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="billRecipient" type="tns:billRecipient" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Invoice recipient</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="nwpInformation" type="tns:optionalStringWithMaxLength140" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Can be used by the NWP for specifying further relevant information (e.g. software+version which was used to create the invoice).</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="countryCodeType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[A-Z]{2}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="currencyCodeType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[A-Z]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="donationPurposesType">
+        <xsd:sequence>
+            <xsd:element name="donationPurpose" type="tns:donationPurposeType" minOccurs="1" maxOccurs="10"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="donationPurposeType">
+        <xsd:sequence>
+            <xsd:element name="externalDonationPurposeId" type="tns:mandatoryStringWithMaxLength36">
+                <xsd:annotation>
+                    <xsd:documentation>Technical id to uniquely identify a donation purpose. This id will be sent out by the Network Partner API for a business case status changed event.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="label" type="tns:mandatoryStringWithMaxLength35">
+                <xsd:annotation>
+                    <xsd:documentation>Used to present the donation purpose to the donation inquiry recipient. Has to be given in the language of the recipient.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="emailAddressType">
+        <xsd:restriction base="tns:mandatoryStringType">
+            <xsd:maxLength value="256"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="enterpriseIdentificationNumberType">
+        <xsd:restriction base="xsd:string">
+            <xsd:length value="12"/>
+            <xsd:pattern value="CHE[0-9]{9}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="genericReferenceStructuredType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="27"/>
+            <xsd:pattern value="([a-zA-Z0-9])*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="ibanType">
+        <xsd:restriction base="tns:mandatoryStringType">
+            <xsd:maxLength value="21"/>
+            <xsd:pattern value="(CH|LI)\d{7}[0-9A-Z]{12}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="instalment">
+        <xsd:sequence>
+            <xsd:element name="externalInstalmentId" type="tns:mandatoryStringWithMaxLength36" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Unique reference of the instalment. It is assigned by the invoice issuer and must be unique for the entire business case.
+                        This reference is used so that the invoice issuer knows exactly which instalment was approved or denied.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="description" type="tns:optionalStringWithMaxLength500" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Description of the instalment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="paymentInformation" type="tns:paymentInformation" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Payment information about the instalment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="instalments">
+        <xsd:sequence>
+            <xsd:element name="instalment" type="tns:instalment" minOccurs="1" maxOccurs="99">
+                <xsd:annotation>
+                    <xsd:documentation>Single instalment, which the invoice recipient can approve for payment. The maximum allowed number of instalments per instalment group is 99. The instalments are presented to the invoice recipient in order of the due date.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="mandatoryStringType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="mandatoryStringWithMaxLength140">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="140"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="mandatoryStringWithMaxLength35">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="35"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="mandatoryStringWithMaxLength36">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="36"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="mandatoryStringWithMaxLength70">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="70"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="optionalStringWithMaxLength100">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="100"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="optionalStringWithMaxLength140">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="140"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="optionalStringWithMaxLength16">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="16"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="optionalStringWithMaxLength500">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="500"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="optionalStringWithMaxLength70">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="70"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="participantNumberType">
+        <xsd:restriction base="xsd:string">
+            <xsd:length value="9"/>
+            <xsd:pattern value="[0-9]{9}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="paymentByInstalments">
+        <xsd:sequence>
+            <xsd:element name="externalPaymentByInstalmentsId" type="tns:mandatoryStringWithMaxLength36" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Unique reference of the instalment group. It is assigned by the invoice issuer and must be unique for the entire business case.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="description" type="tns:optionalStringWithMaxLength500" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Description of the instalment group.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="isTotalAmountHidden" type="xsd:boolean" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>If "true", then the total amount of the invoice is not permitted to be presented to the invoice recipient.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="isTotalPaymentOption" type="xsd:boolean" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>If "true", then the instalment of the instalment group is considered as the total instalment of the invoice, i.e. the instalment with which the invoice issuer enables the total invoice amount to be paid all at once. isTotalPaymentOption can only be set to "true" in one instalment group. It is recommended to provide a total instalment option.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="instalments" type="tns:instalments" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Group of the single instalments.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="paymentInformation">
+        <xsd:sequence>
+            <xsd:element name="accountAndReference" type="tns:accountAndReference" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Information about the account and reference of the invoice issuer. Information about the debit account can be provided in the IBAN format, always with the according references.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="amount" type="tns:amountType" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>The amount of the business case (amount incl. VAT + currency code, e.g. CHF 1183.46).</xsd:documentation>
+                    <xsd:documentation>Must be matching with the total amount (totalAmount), if business case is an invoice, reminder or donation inquiry.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="dueDate" type="xsd:date" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Due date. In the case of donation inquiries, the due date acts as a proposal for the payment date.</xsd:documentation>
+                    <xsd:documentation>
+                        At time of submission, cannot be set to more than 3 years in the future (1095 days) for payment mode ebill.
+                        At time of submission, cannot be set to more than 30 days in the future for payment mode ebill debit.
+                        At time of submission, cannot be older than 90 days.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="payableAmountCanBeModified" type="xsd:boolean" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>If "true", then the provided invoice amount is permitted to be altered.</xsd:documentation>
+                    <xsd:documentation>If the invoice amount is not provided, the value must be set to "true".</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="paymentModeType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="EBILL">
+                <xsd:annotation>
+                    <xsd:documentation>eBill payment: approval by the recipient required.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EBILL_DEBIT">
+                <xsd:annotation>
+                    <xsd:documentation>eBill Direct Debit payment: automatically collected on the recipient side. Requires a defined eBill Direct Debit submission approval.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="paymentsByInstalments">
+        <xsd:sequence>
+            <xsd:element name="paymentByInstalments" type="tns:paymentByInstalments" minOccurs="1" maxOccurs="99">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Instalment group.
+
+                        An instalment group can be chosen for payment. Following, all single instalments, that are included in the instalment group, can be approved one by one. The maximum allowed number of instalment groups is 99. The instalment group, that is marked as the total instalment (isTotalPaymentOption = "true"), is initially shown to the invoice recipient as the chosen option. If there is no total instalment option (isTotalPaymentOption = "false"), the invoice recipient sees automatically the first instalment group as chosen.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="percentageType">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:maxInclusive value="100.00"/>
+            <xsd:minInclusive value="0.00"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="postalAddress">
+        <xsd:sequence>
+            <xsd:element name="street" type="tns:optionalStringWithMaxLength70" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Street</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="buildingNumber" type="tns:optionalStringWithMaxLength16" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Building number</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="city" type="tns:mandatoryStringWithMaxLength35" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>City</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="postalCode" type="tns:postalCodeType" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Postal code</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="countryCode" type="tns:countryCodeType" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Country; two-letter ISO country code according to ISO 3166-1.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="postalCodeType">
+        <xsd:restriction base="tns:mandatoryStringType">
+            <xsd:maxLength value="9"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="proposedDonationAmountsType">
+        <xsd:annotation>
+            <xsd:documentation>The donation inquiry recipient has the ability to select one of the proposed donation amounts or manually enters a free amount as wanted.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="proposedDonationAmount" type="tns:amountType" minOccurs="2" maxOccurs="5"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="referencedBill">
+        <xsd:sequence>
+            <xsd:element name="referenceNumber" type="tns:referenceNumberType" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Reference number/invoice number of the referenced business case. If the referenced invoice is found, it will be substituted with the new credit note, notification, or invoice. In case of a reminder, the referenced invoice will not be substituted; at time of approval, the invoice recipient decides whether to pay the original invoice or the reminder. If the referenced invoice is not found, a new business case is created.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="referenceNumberType">
+        <xsd:restriction base="tns:mandatoryStringType">
+            <xsd:maxLength value="120"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="salesChannelType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="ECOMMERCE">
+                <xsd:annotation>
+                    <xsd:documentation>Must only be used for use cases that are considered as eCommerce. For more information check the rulebook.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="OTHER">
+                <xsd:annotation>
+                    <xsd:documentation>Used for non-eCommerce use cases.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="singlePayment">
+        <xsd:sequence>
+            <xsd:element name="paymentInformation" type="tns:paymentInformation" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Information about the payment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="paymentMode" type="tns:paymentModeType" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>eBill payment or eBill Direct Debit payment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="salesChannel" type="tns:salesChannelType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>eBill sales channel</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="unstructuredAddressType">
+        <xsd:sequence>
+            <xsd:element name="addressLine1" type="tns:optionalStringWithMaxLength70" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Unstructured address line 1</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="addressLine2" type="tns:optionalStringWithMaxLength70" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Unstructured address line 2</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="countryCode" type="tns:countryCodeType" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Country; two-letter ISO country code according to ISO 3166-1.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="uuidType">
+        <xsd:restriction base="tns:mandatoryStringType">
+            <xsd:maxLength value="36"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="vatEnterpriseIdentificationNumbers">
+        <xsd:sequence>
+            <xsd:element name="vatEnterpriseIdentificationNumber" type="tns:vatEnterpriseIdentificationNumberType" minOccurs="0" maxOccurs="5">
+                <xsd:annotation>
+                    <xsd:documentation>VAT-UID of the invoice issuer. Presentation without punctuation (e.g. CHE123456789MWST).</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="vatEnterpriseIdentificationNumberType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="16"/>
+            <xsd:pattern value="CHE[0-9]{9}MWST"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="vatRate">
+        <xsd:sequence minOccurs="1">
+            <xsd:element name="percentage" type="tns:percentageType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>VAT rate in percent (example: 8%)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="taxBaseAmount" type="tns:amountType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Tax base amount (example: CHF 1095.80)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="taxAmount" type="tns:amountType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Amount of a tax to be owed (example: CHF 87.66)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="vatRates">
+        <xsd:sequence>
+            <xsd:element name="vatRate" type="tns:vatRate" minOccurs="1" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>VAT information per VAT rate</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="workflow">
+        <xsd:sequence minOccurs="1" maxOccurs="1">
+            <xsd:element name="vatEnterpriseIdentificationNumbers" type="tns:vatEnterpriseIdentificationNumbers" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Value Added Tax Enterprise Identification Numbers (VAT-UIDs) of the invoice issuer</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="deliveryDateStart" type="xsd:date" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Start date of the service provision, in case it is different than deliveryDateEnd</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="deliveryDateEnd" type="xsd:date" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Delivery date or end date of the service provision</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="netAmount" type="tns:amountType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Total invoice amount without VAT (e.g. CHF 1095.80)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="amountPaid" type="tns:amountType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Sum of the amount that was paid by the invoice recipient in advance (without VAT-relevant advance invoice). The outstanding total invoice amount to be paid corresponds to the element "totalAmount".</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="vatRates" type="tns:vatRates" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Grouping of VAT rates</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="caseReferenceForBillRecipient" type="tns:optionalStringWithMaxLength100" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Association reference to be used by the invoice recipient to allocate the business case in his bookkeeping.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

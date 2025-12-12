@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: nominationservice
+  cloud:
+    bus:
+      enabled: true
+      refresh:
+        enabled: true
+    config:
+      label: latest
+      discovery:
+        enabled: true
+        service-id: configservice
+  config:
+    import: 'optional:configserver:'
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/workspark
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+    show-sql: true
+
+server:
+  port: 8087
+  servlet:
+    context-path: /nomination
+
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${server.port}
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+springdoc:
+  api-docs:
+    path: /public/api-docs
