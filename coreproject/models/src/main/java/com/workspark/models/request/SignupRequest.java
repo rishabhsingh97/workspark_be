@@ -1,6 +1,6 @@
 package com.workspark.models.request;
 
-import com.workspark.models.enums.UserRole;
+import com.workspark.models.enums.UserRoleEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -38,7 +38,7 @@ public class SignupRequest implements Serializable {
 	@Size(min = 6, message = "Password must be at least 6 characters")
 	private String password;
 
-	private List<UserRole> roles = new ArrayList<>(Collections.singletonList(UserRole.USER));
+	private List<UserRoleEnum> roles = new ArrayList<>(Collections.singletonList(UserRoleEnum.USER));
 
 	private boolean sso = false;
 

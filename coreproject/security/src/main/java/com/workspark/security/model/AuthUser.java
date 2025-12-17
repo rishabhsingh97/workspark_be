@@ -1,6 +1,6 @@
 package com.workspark.security.model;
 
-import com.workspark.models.enums.UserRole;
+import com.workspark.models.enums.UserRoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +24,7 @@ public class AuthUser implements UserDetails {
     private String phoneNumber;
     private String email;
     private String password;
-    private List<UserRole> roles;
+    private List<UserRoleEnum> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

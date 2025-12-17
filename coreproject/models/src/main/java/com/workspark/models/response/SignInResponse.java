@@ -1,7 +1,7 @@
 package com.workspark.models.response;
 
 import com.workspark.models.enums.Status;
-import com.workspark.models.enums.UserRole;
+import com.workspark.models.enums.UserRoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +21,7 @@ public class SignInResponse implements Serializable {
         private String phoneNumber;
         private String password;
         private Status status;
-        private List<UserRole> roles;
+        private List<UserRoleEnum> roles;
 
 }
 

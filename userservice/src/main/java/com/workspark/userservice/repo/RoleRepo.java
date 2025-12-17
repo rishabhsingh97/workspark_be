@@ -1,7 +1,7 @@
 package com.workspark.userservice.repo;
 
 import com.workspark.models.enums.UserRole;
-import com.workspark.userservice.model.entitity.Role;
+import com.workspark.userservice.model.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

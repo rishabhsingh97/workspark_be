@@ -3,12 +3,12 @@ package com.workspark.userservice.repo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.workspark.userservice.model.entitity.TenantUser;
+import com.workspark.userservice.model.entity.User;
 
 import java.util.Optional;
 
 @Repository
-public interface TenantUserRepository extends JpaRepository<TenantUser, Long>{
+public interface UserRepository extends JpaRepository<User, Long>{
 
-    Optional<TenantUser> findByEmail(String email);
+    Optional<User> findByEmail(String email);
 }

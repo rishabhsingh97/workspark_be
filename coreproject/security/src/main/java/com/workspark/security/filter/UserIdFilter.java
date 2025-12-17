@@ -9,7 +9,7 @@ import java.util.Optional;
 
 import com.workspark.commonconfig.models.entity.RedisAuthUser;
 import com.workspark.commonconfig.service.RedisAuthUserService;
-import com.workspark.models.enums.UserRole;
+import com.workspark.models.enums.UserRoleEnum;
 import com.workspark.models.response.BaseRes;
 import com.workspark.security.model.AuthUser;
 import jakarta.servlet.FilterChain;
@@ -79,7 +79,7 @@ public class UserIdFilter extends OncePerRequestFilter {
             AuthUser systemUser = new AuthUser();
             systemUser.setFirstName("System");
             systemUser.setLastName("User");
-            systemUser.setRoles(List.of(UserRole.SYSTEM));
+            systemUser.setRoles(List.of(UserRoleEnum.SYSTEM));
 
             if (Objects.nonNull(SecurityContextHolder.getContext()) &&
                     Objects.isNull(SecurityContextHolder.getContext().getAuthentication())) {

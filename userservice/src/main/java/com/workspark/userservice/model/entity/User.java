@@ -1,4 +1,4 @@
-package com.workspark.userservice.model.entitity;
+package com.workspark.userservice.model.entity;
 
 import com.workspark.models.enitity.BaseAuditFields;
 import jakarta.persistence.*;
@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "users")
-public class User extends BaseAuditFields {
+public class UserEntity extends BaseAuditFields {
 
 	@Column(name = "first_name")
 	private String firstName;
@@ -31,7 +31,7 @@ public class User extends BaseAuditFields {
 			joinColumns = @JoinColumn(name = "user_id"),
 			inverseJoinColumns = @JoinColumn(name = "role_id")
 	)
-	private List<TenantUserRoles> roles;
+	private List<RoleEntity> roles;
 
 
 }
