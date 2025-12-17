@@ -42,7 +42,6 @@ import lombok.extern.slf4j.Slf4j;
  * expired JWT tokens using a valid refresh token. It delegates the core
  * business logic to the AuthService.
  *
- * @author mridulj
  */
 @Slf4j
 @RestController
@@ -80,26 +79,26 @@ public class AuthController {
     public ResponseEntity<BaseRes<AuthenticationResponse>> signIn(@Valid @RequestBody SignInRequest request) throws JsonProcessingException {
         AuthenticationResponse authResponse = authService.signIn(request);
         try {
-            redisPubService.publish(
-                    Notification.builder().
-                            email(
-                                    Email.builder()
-                                            .fromEmail("rishabhsingh97it@gmail.com")
-                                            .fromName("Workspark Support")
-                                            .toEmail("rishthakur18@gmail.com")
-                                            .toName("Rishabh Singh")
-                                            .subject("Test Mail")
-                                            .template(templateLoader.readFileFromResources("abc.html"))
-                                            .parameters(Map.of("name", "John Doe",
-                                                    "hasSpecialOffer", true,
-                                                    "specialOfferMessage", "Enjoy 10% off your first purchase!",
-                                                    "verificationToken", "your_verification_token")
-                                            )
-                                            .message("Hi this is test mail")
-                                            .build()
-                            )
-                            .build());
-        } catch (IOException e) {
+//            redisPubService.publish(
+//                    Notification.builder().
+//                            email(
+//                                    Email.builder()
+//                                            .fromEmail("rishabhsingh97it@gmail.com")
+//                                            .fromName("Workspark Support")
+//                                            .toEmail("rishthakur18@gmail.com")
+//                                            .toName("Rishabh Singh")
+//                                            .subject("Test Mail")
+//                                            .template(templateLoader.readFileFromResources("abc.html"))
+//                                            .parameters(Map.of("name", "John Doe",
+//                                                    "hasSpecialOffer", true,
+//                                                    "specialOfferMessage", "Enjoy 10% off your first purchase!",
+//                                                    "verificationToken", "your_verification_token")
+//                                            )
+//                                            .message("Hi this is test mail")
+//                                            .build()
+//                            )
+//                            .build());
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return BaseRes.success(authResponse, Constants.SUCCESSFULLY_SIGNED_IN, HttpStatus.OK);

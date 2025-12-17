@@ -6,14 +6,12 @@ import java.security.interfaces.RSAPublicKey;
 import java.util.*;
 import java.util.function.Function;
 
+import com.workspark.security.model.AuthUser;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.workspark.commonconfig.models.pojo.TenantContext;
-import com.workspark.models.enums.UserRole;
-import com.workspark.models.pojo.AuthUser;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -214,22 +212,6 @@ public class JwtUtil {
 		return extractClaim(token, claims -> (String) claims.get("uuid"));
 	}
 	
-	public boolean validateToken(String token, OidcUser oidcUser) {
-		try {
-			// Get the public key
-			PublicKey publicKey = getPublicKeyFromOidcProvider(token, oidcUser.getIssuer().toString());
-			log.info("---Issuer OIDC -- " + oidcUser.getIssuer().toString());
-			// Parse and validate the token using the public key
-			Claims claims = Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token).getBody();
-
-			log.info("Token signature is valid");
-			return true;
-		} catch (Exception e) {
-			log.error("Token validation failed: {}", e.getMessage());
-			return false;
-		}
-	}
-
 	public PublicKey getPublicKeyFromOidcProvider(String token, String issuer) throws Exception {
 		// Discover the JWKS URI from the OIDC provider's discovery endpoint
 		String discoveryUrl = issuer + "/.well-known/openid-configuration";

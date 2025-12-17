@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import com.workspark.models.response.BaseRes;
 import com.workspark.models.response.SignInResponse;
-import org.springframework.http.ResponseEntity;
+import com.workspark.security.model.AuthUser;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,6 @@ import com.workspark.authenticationservice.service.IAuthService;
 import com.workspark.authenticationservice.util.JwtUtil;
 import com.workspark.commonconfig.models.entity.RedisAuthUser;
 import com.workspark.commonconfig.service.RedisAuthUserService;
-import com.workspark.models.pojo.AuthUser;
 import com.workspark.models.request.SignupRequest;
 
 import lombok.RequiredArgsConstructor;
@@ -106,7 +105,7 @@ public class AuthServiceJWTImpl implements IAuthService {
 					String userKey = UUID.randomUUID().toString();
 
 					AuthUser authUser = AuthUser.builder()
-							.id(a.getUserId())
+							.id(a.getUserId().toString())
 							.email(a.getEmail())
 							.firstName(a.getFirstName())
 							.lastName(a.getLastName())
@@ -120,7 +119,7 @@ public class AuthServiceJWTImpl implements IAuthService {
 
 					RedisAuthUser redisAuthUser = RedisAuthUser.builder()
 							.redisUserId(userKey)
-							.authUser(authUser)
+							.authUser(null)
 							.build();
 
 					// Store user details in Redis with a TTL of 1 hour

@@ -3,7 +3,7 @@ package com.workspark.authenticationservice.model;
 import java.io.Serializable;
 import java.util.List;
 
-import com.workspark.models.enums.UserRole;
+import com.workspark.models.enums.UserRoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +20,7 @@ public class SigninResponse implements Serializable	{
     private String phoneNumber;
     private String password;
     private Boolean status;
-    private List<UserRole> roles;
+    private List<UserRoleEnum> roles;
 
 
 }
