@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Base response class for all API responses.
@@ -19,9 +21,17 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BaseRes<T extends Serializable> implements Serializable {
-    private T item;
+public class BasePageRes<T extends Serializable> implements Serializable {
+    private List<T> items;
+    private long pageNo;
+    private long pageSize;
+    private long totalPages;
+    private long totalCount;
     private boolean success;
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private String message;
+
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String error;
 
@@ -35,19 +45,11 @@ public class BaseRes<T extends Serializable> implements Serializable {
      *
      * @return ResponseEntity with success BaseRes.
      */
-    public static <T extends Serializable> ResponseEntity<BaseRes<T>> success(T data, String message, HttpStatus httpStatus) {
-        BaseRes<T> response = BaseRes.<T>builder()
-                .item(data)
+    public static <T extends Serializable> ResponseEntity<BasePageRes<T>> success(List<T> data, String message, HttpStatus httpStatus) {
+        BasePageRes<T> response = BasePageRes.<T>builder()
+                .items(data)
                 .success(true)
-                .error(null)
-                .build();
-        return ResponseEntity.status(httpStatus).body(response);
-    }
-
-    public static <T extends Serializable> ResponseEntity<BaseRes<T>> success(T data,HttpStatus httpStatus) {
-        BaseRes<T> response = BaseRes.<T>builder()
-                .item(data)
-                .success(true)
+                .message(message.isBlank() ? "Request Successful" : message)
                 .error(null)
                 .build();
         return ResponseEntity.status(httpStatus).body(response);
@@ -63,14 +65,15 @@ public class BaseRes<T extends Serializable> implements Serializable {
      *
      * @return ResponseEntity with error BaseRes.
      */
-    public static <T extends Serializable> ResponseEntity<BaseRes<T>> error(
+    public static <T extends Serializable> ResponseEntity<BasePageRes<T>> error(
             String message,
             String error,
             HttpStatus httpStatus
     ) {
-        BaseRes<T> response = BaseRes.<T>builder()
-                .item(null)
+        BasePageRes<T> response = BasePageRes.<T>builder()
+                .items(Collections.emptyList())
                 .success(false)
+                .message(message)
                 .error(error.isBlank() ? "Unknown Exception" : error)
                 .build();
         return ResponseEntity.status(httpStatus).body(response);

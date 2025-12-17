@@ -10,8 +10,8 @@ import java.util.Optional;
 import com.workspark.commonconfig.models.entity.RedisAuthUser;
 import com.workspark.commonconfig.service.RedisAuthUserService;
 import com.workspark.models.enums.UserRole;
-import com.workspark.models.pojo.AuthUser;
 import com.workspark.models.response.BaseRes;
+import com.workspark.security.model.AuthUser;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -115,7 +115,7 @@ public class UserIdFilter extends OncePerRequestFilter {
         Optional<RedisAuthUser> redisAuthUser = redisAuthUserService.getUser(authUserId);
 
         if (redisAuthUser.isPresent()) {
-            AuthUser user = redisAuthUser.get().getAuthUser();
+            AuthUser user = new AuthUser();
             log.debug("Found RedisAuthUser for 'X-UserId': {}", authUserId);
 
             // Set authentication if not already set in the SecurityContext

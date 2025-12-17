@@ -1,6 +1,5 @@
 package com.workspark.commonconfig.models.entity;
 
-import com.workspark.models.pojo.AuthUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,4 +19,5 @@ public class RedisAuthUser implements Serializable {
     @Id
     private String redisUserId;
     private AuthUser authUser;
+
 }
