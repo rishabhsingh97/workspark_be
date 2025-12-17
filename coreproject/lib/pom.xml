@@ -8,10 +8,10 @@
         <version>0.0.2-SNAPSHOT</version>
     </parent>
     <groupId>com.workspark.coreproject</groupId>
-    <artifactId>commonconfig</artifactId>
+    <artifactId>lib</artifactId>
     <version>0.0.2-SNAPSHOT</version>
-    <name>Common Config</name>
-    <description>commonconfig</description>
+    <name>WorkSpark Library</name>
+    <description>WorkSpark Library</description>
     <packaging>jar</packaging>
 
     <properties>
@@ -35,21 +35,12 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.5.0</version>
-        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-thymeleaf</artifactId>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -72,15 +63,10 @@
             <artifactId>spring-boot-starter-tomcat</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>com.workspark.coreproject</groupId>
             <artifactId>models</artifactId>
             <version>0.0.2-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
         </dependency>
 
         <!-- MapStruct API -->
