@@ -12,7 +12,7 @@ import com.workspark.certificateservice.repository.TemplateDynamicFieldRepositor
 import com.workspark.certificateservice.repository.TemplateRepository;
 import com.workspark.certificateservice.service.ReportService;
 import com.workspark.certificateservice.service.TemplateService;
-import com.workspark.models.response.PaginatedRes;
+import com.workspark.models.response.BasePageRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -77,12 +77,12 @@ public class TemplateServiceImpl implements TemplateService {
      * @param size the number of templates per page
      * @return paginatedRes<TemplateRes> containing the paginated list of templates
      */
-    public PaginatedRes<TemplateRes> getAllTemplates(int page, int size) {
+    public BasePageRes<TemplateRes> getAllTemplates(int page, int size) {
         log.info("Fetching all templates from the database (Page: {}, Size: {})", page, size);
 
         Page<Template> routeDataPage = templateRepository.findAll(PageRequest.of(page - 1, size));
 
-        return PaginatedRes.<TemplateRes>builder()
+        return BasePageRes.<TemplateRes>builder()
                 .data(routeDataPage.getContent().stream().map(this::mapToTemplateRes).toList())
                 .pageNo(page)
                 .pageSize(routeDataPage.getSize())

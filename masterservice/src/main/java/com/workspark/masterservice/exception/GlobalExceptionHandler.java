@@ -1,4 +1,4 @@
-package com.workspark.nominationservice.exception;
+package com.workspark.masterservice.exception;
 
 
 import org.slf4j.Logger;

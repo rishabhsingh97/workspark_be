@@ -1,29 +1,24 @@
 package com.workspark.userservice.model.entity;
 
-import com.workspark.models.enitity.BaseAuditFields;
+import com.workspark.lib.models.entity.BaseAuditFields;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.Date;
-
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "user_role_mapping")
-public class UserRoleMappingEntity extends BaseAuditFields {
+public class UserRoleMapping extends BaseAuditFields {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    private UserEntity user;
+    private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
-    private UserRolesEntity role;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
+    private Role role;
 
-    @Column(name = "assigned_at")
-    private Date assignedAt;
 }

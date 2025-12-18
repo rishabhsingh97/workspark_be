@@ -9,7 +9,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 
-import java.util.Arrays;
 import java.util.List;
 
 @EnableWebFluxSecurity
@@ -37,6 +36,4 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
-    //write selenium script for testing username present
 }

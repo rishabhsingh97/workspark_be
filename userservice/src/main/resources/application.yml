@@ -6,12 +6,6 @@ server:
 spring:
   application:
     name: userservice
-  cloud:
-    config:
-      label: latest
-      discovery:
-        enabled: true
-        service-id: configservice
   config:
     import: 'optional:configserver:'
   data:

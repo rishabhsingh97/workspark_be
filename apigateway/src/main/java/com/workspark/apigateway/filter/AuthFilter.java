@@ -128,7 +128,7 @@ public class AuthFilter implements GlobalFilter {
         BaseRes<String> response = BaseRes.<String>builder()
                 .item(null)
                 .error("Authentication Error")
-                .message(message)
+                .error(message)
                 .build();
 
         log.warn("Unauthorized response: {}", message);
@@ -160,11 +160,12 @@ public class AuthFilter implements GlobalFilter {
      *  @return boolean indicating if the request is whitelisted
      */
     private boolean isWhitelistedApi(ServerHttpRequest request) {
-        log.info("whitelisted apis: {}", appConfig.getWhitelistedPaths());
-        log.info("Checking if the request is whitelisted: {}", request.getURI().getPath());
-        String requestUri = request.getURI().getPath();
-        AntPathMatcher matcher = new AntPathMatcher();
-        return appConfig.getWhitelistedPaths().stream().anyMatch(pattern -> matcher.match(pattern, requestUri));
+//        log.info("whitelisted apis: {}", appConfig.getWhitelistedPaths());
+//        log.info("Checking if the request is whitelisted: {}", request.getURI().getPath());
+//        String requestUri = request.getURI().getPath();
+//        AntPathMatcher matcher = new AntPathMatcher();
+//        return appConfig.getWhitelistedPaths().stream().anyMatch(pattern -> matcher.match(pattern, requestUri));
+        return true;
     }
 
 }

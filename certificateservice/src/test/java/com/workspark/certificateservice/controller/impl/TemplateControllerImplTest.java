@@ -5,7 +5,7 @@ import com.workspark.certificateservice.model.dto.request.TemplateReq;
 import com.workspark.certificateservice.model.dto.response.TemplateRes;
 import com.workspark.certificateservice.service.TemplateService;
 import com.workspark.models.response.BaseRes;
-import com.workspark.models.response.PaginatedRes;
+import com.workspark.models.response.BasePageRes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -69,7 +69,7 @@ class TemplateControllerImplTest {
     @Test
     void getAllTemplates_shouldReturnPaginatedTemplateRes_whenValidPageAndSize() {
         // Given
-        PaginatedRes<TemplateRes> paginatedRes = new PaginatedRes<>();
+        BasePageRes<TemplateRes> paginatedRes = new BasePageRes<>();
         paginatedRes.setPageSize(5);
 
         paginatedRes.setCount(1);
@@ -78,8 +78,8 @@ class TemplateControllerImplTest {
         when(templateService.getAllTemplates(anyInt(), anyInt())).thenReturn(paginatedRes);
 
         // When
-        ResponseEntity<BaseRes<PaginatedRes<TemplateRes>>> responseEntity = templateController.getAllTemplates(1, 10);
-        BaseRes<PaginatedRes<TemplateRes>> response = responseEntity.getBody();
+        ResponseEntity<BaseRes<BasePageRes<TemplateRes>>> responseEntity = templateController.getAllTemplates(1, 10);
+        BaseRes<BasePageRes<TemplateRes>> response = responseEntity.getBody();
 
         // Then
         assertNotNull(response);

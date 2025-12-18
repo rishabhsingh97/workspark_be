@@ -1,13 +1,17 @@
 package com.workspark.masterservice.model.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import com.workspark.models.dto.BaseTenantDto;
+import lombok.*;
 
-import java.util.List;
-
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class TenantDto extends BaseTenantDto  {
 
-public class NominationRequestDTO {
-
+    private String name;
+    private String domain;
+    private String db;
+    private String email;
 }

@@ -1,17 +1,18 @@
 package com.workspark.userservice.model.entity;
 
-import com.workspark.models.enitity.BaseAuditFields;
+import com.workspark.lib.models.entity.BaseAuditFields;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "users")
-public class UserEntity extends BaseAuditFields {
+public class User extends BaseAuditFields {
 
 	@Column(name = "first_name")
 	private String firstName;
@@ -25,13 +26,12 @@ public class UserEntity extends BaseAuditFields {
 	@Column(name = "password_hash")
 	private String passwordHash;
 
-	@ManyToMany
-	@JoinTable(
-			name = "tenant_user_roles_map",
-			joinColumns = @JoinColumn(name = "user_id"),
-			inverseJoinColumns = @JoinColumn(name = "role_id")
+	@OneToMany(
+			mappedBy = "user",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
 	)
-	private List<RoleEntity> roles;
+	private Set<UserRoleMapping> userRoleMappings = new HashSet<>();
 
 
 }

@@ -1,28 +1,21 @@
 package com.workspark.userservice.model.entity;
 
-import com.workspark.models.enitity.BaseAuditFields;
-import com.workspark.models.enums.UserRole;
+import com.workspark.lib.models.entity.BaseAuditFields;
+import com.workspark.models.enums.UserRoleEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.util.Date;
+import lombok.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "roles")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleEntity extends BaseAuditFields {
+public class Role extends BaseAuditFields {
 
 	@Enumerated(EnumType.STRING)
-	private UserRole roleName;
-	private String roleDesc;
-	private Boolean status;
-
+	private UserRoleEnum name;
+	private String description;
+	private int status;
 }

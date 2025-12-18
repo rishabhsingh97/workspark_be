@@ -3,7 +3,7 @@ package com.workspark.certificateservice.controller;
 import com.workspark.certificateservice.model.dto.request.TemplateReq;
 import com.workspark.certificateservice.model.dto.response.TemplateRes;
 import com.workspark.models.response.BaseRes;
-import com.workspark.models.response.PaginatedRes;
+import com.workspark.models.response.BasePageRes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -61,13 +61,13 @@ public interface TemplateController {
             description = "Fetches a paginated list of all uploaded templates",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Templates fetched successfully",
-                            content = @Content(schema = @Schema(contentSchema = BaseRes.class, subTypes = {PaginatedRes.class, TemplateRes.class}))),
+                            content = @Content(schema = @Schema(contentSchema = BaseRes.class, subTypes = {BasePageRes.class, TemplateRes.class}))),
                     @ApiResponse(responseCode = "500", description = "Internal server error",
-                            content = @Content(schema = @Schema(contentSchema = BaseRes.class, subTypes = {PaginatedRes.class, TemplateRes.class})))
+                            content = @Content(schema = @Schema(contentSchema = BaseRes.class, subTypes = {BasePageRes.class, TemplateRes.class})))
             }
     )
     @GetMapping
-    ResponseEntity<BaseRes<PaginatedRes<TemplateRes>>> getAllTemplates(
+    ResponseEntity<BaseRes<BasePageRes<TemplateRes>>> getAllTemplates(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "4") int size
     );
@@ -84,9 +84,9 @@ public interface TemplateController {
             description = "Fetches a paginated list of all uploaded templates",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Templates fetched successfully",
-                            content = @Content(schema = @Schema(contentSchema = BaseRes.class, subTypes = {PaginatedRes.class, TemplateRes.class}))),
+                            content = @Content(schema = @Schema(contentSchema = BaseRes.class, subTypes = {BasePageRes.class, TemplateRes.class}))),
                     @ApiResponse(responseCode = "500", description = "Internal server error",
-                            content = @Content(schema = @Schema(contentSchema = BaseRes.class, subTypes = {PaginatedRes.class, TemplateRes.class})))
+                            content = @Content(schema = @Schema(contentSchema = BaseRes.class, subTypes = {BasePageRes.class, TemplateRes.class})))
             }
     )
     @GetMapping("/{id}")

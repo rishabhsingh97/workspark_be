@@ -16,7 +16,7 @@ mvn clean install
 ```
 
 Step 2:
-Run application `NominationServiceApplication`
+Run application `MasterServiceApplication`
 
 ## Configurable items<hr />
 Team leads can nominate employees with justifications for their contributions and list and track nominations with real-time status updates.

@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: v_2_1_2
+      author: "Admin"
+      comment: "Tenant specific schema created..."
+      sqlFile:
+        encoding: utf8
+        relativeToChangelogFile: true
+        stripComments: true
+        path: "tenant-data-query.sql"

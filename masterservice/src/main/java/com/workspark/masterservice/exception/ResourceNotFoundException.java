@@ -1,4 +1,4 @@
-package com.workspark.nominationservice.exception;
+package com.workspark.masterservice.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {

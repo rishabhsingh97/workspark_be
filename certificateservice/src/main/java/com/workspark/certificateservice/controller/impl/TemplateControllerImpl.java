@@ -5,7 +5,7 @@ import com.workspark.certificateservice.model.dto.request.TemplateReq;
 import com.workspark.certificateservice.model.dto.response.TemplateRes;
 import com.workspark.certificateservice.service.TemplateService;
 import com.workspark.models.response.BaseRes;
-import com.workspark.models.response.PaginatedRes;
+import com.workspark.models.response.BasePageRes;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,11 +55,11 @@ public class TemplateControllerImpl implements TemplateController {
      * @param size the number of templates per page
      * @return a list of all templates
      */
-    public ResponseEntity<BaseRes<PaginatedRes<TemplateRes>>> getAllTemplates(int page, int size) {
+    public ResponseEntity<BaseRes<BasePageRes<TemplateRes>>> getAllTemplates(int page, int size) {
         log.info("Received request to fetch templates for page: {}, with size: {}", page, size);
 
         log.info("Fetching templates...");
-        PaginatedRes<TemplateRes> paginatedTemplatesList = templateService.getAllTemplates(page, size);
+        BasePageRes<TemplateRes> paginatedTemplatesList = templateService.getAllTemplates(page, size);
         log.info("Fetched {} templates for page: {}, size: {}",
                 paginatedTemplatesList.getPageSize(), page, size);
         return BaseRes.success(paginatedTemplatesList, "", HttpStatus.OK);

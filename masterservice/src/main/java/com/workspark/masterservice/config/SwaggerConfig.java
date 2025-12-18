@@ -1,4 +1,4 @@
-package com.workspark.nominationservice.config;
+package com.workspark.masterservice.config;
 
 
 

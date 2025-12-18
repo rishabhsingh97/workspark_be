@@ -12,6 +12,7 @@ import com.workspark.certificateservice.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -19,10 +20,17 @@ import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 /**
  * Service class for managing certificate templates and generating certificates.
  * Handles CRUD operations for templates and integrates with JasperReports for PDF generation.
+ * 
+ * Concepts demonstrated:
+ * - Async certificate generation
+ * - Parallel batch processing
+ * - CompletableFuture for concurrent operations
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -124,5 +132,67 @@ public class CertificateServiceImpl implements CertificateService {
             log.error("Dynamic fields validation failed for template ID: {}", template.getId());
             throw new IllegalArgumentException("Dynamic fields do not match with the template parameters");
         }
+    }
+    
+    /**
+     * Generates multiple certificates in parallel (batch operation).
+     * 
+     * Concepts demonstrated:
+     * - CompletableFuture.allOf(): Waits for all async tasks to complete
+     * - CompletableFuture.supplyAsync(): Creates async tasks for each certificate
+     * - Parallel execution: All certificates are generated concurrently
+     * - Exception handling: Failed certificates are handled gracefully
+     * - Stream API: Used for collecting results
+     * 
+     * Performance benefits:
+     * - If generating 10 certificates sequentially takes 10 seconds (1 sec each)
+     * - Parallel generation with 10 threads takes ~1 second (all run concurrently)
+     * 
+     * @param certificateRequests List of certificate requests
+     * @return CompletableFuture that completes with list of generated certificates
+     */
+    @Override
+    @Async("batchCertificateExecutor")
+    public CompletableFuture<List<byte[]>> generateCertificatesBatch(List<CertificateReq> certificateRequests) {
+        log.info("Starting batch certificate generation for {} certificates", certificateRequests.size());
+        
+        // Create a list of CompletableFutures, one for each certificate
+        // Each certificate generation runs asynchronously
+        List<CompletableFuture<byte[]>> futures = certificateRequests.stream()
+                .map(request -> CompletableFuture.supplyAsync(() -> {
+                    try {
+                        log.debug("Generating certificate for template ID: {}", request.getTemplateId());
+                        return generateCertificate(request);
+                    } catch (Exception e) {
+                        log.error("Error generating certificate for template ID: {}", request.getTemplateId(), e);
+                        // Return null or throw exception based on requirements
+                        // For now, we'll throw to fail fast
+                        throw new RuntimeException("Failed to generate certificate: " + e.getMessage(), e);
+                    }
+                }))
+                .collect(Collectors.toList());
+        
+        // Wait for all futures to complete
+        // CompletableFuture.allOf() returns a CompletableFuture<Void> that completes
+        // when all the provided futures complete
+        CompletableFuture<Void> allFutures = CompletableFuture.allOf(
+                futures.toArray(new CompletableFuture[0])
+        );
+        
+        // Once all futures complete, extract the results
+        CompletableFuture<List<byte[]>> resultFuture = allFutures.thenApply(v -> {
+            return futures.stream()
+                    .map(CompletableFuture::join) // Get the result (blocks until complete, but we know it's done)
+                    .collect(Collectors.toList());
+        });
+        
+        // Handle exceptions
+        resultFuture.exceptionally(throwable -> {
+            log.error("Error in batch certificate generation", throwable);
+            throw new RuntimeException("Batch certificate generation failed", throwable);
+        });
+        
+        log.info("Batch certificate generation initiated for {} certificates", certificateRequests.size());
+        return resultFuture;
     }
 }

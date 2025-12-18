@@ -8,7 +8,7 @@ import com.workspark.certificateservice.repository.TemplateAssetRepository;
 import com.workspark.certificateservice.repository.TemplateDynamicFieldRepository;
 import com.workspark.certificateservice.repository.TemplateRepository;
 import com.workspark.certificateservice.service.impl.TemplateServiceImpl;
-import com.workspark.models.response.PaginatedRes;
+import com.workspark.models.response.BasePageRes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -113,7 +113,7 @@ class TemplateServiceTest {
         when(templateRepository.findAll(PageRequest.of(0, 10))).thenReturn(mockPage);
 
         // Act
-        PaginatedRes<TemplateRes> result = templateService.getAllTemplates(1, 10);
+        BasePageRes<TemplateRes> result = templateService.getAllTemplates(1, 10);
 
         // Assert
         assertNotNull(result);

@@ -1,7 +1,7 @@
 package com.workspark.userservice.model.dto.response;
 
 import com.workspark.models.enums.Status;
-import com.workspark.models.enums.UserRole;
+import com.workspark.models.enums.UserRoleEnum;
 import lombok.Data;
 
 import java.util.List;
@@ -16,6 +16,6 @@ public class SignInResponse {
 	private String phoneNumber;
 	private String password;
 	private Status status;
-	private List<UserRole> roles;
+	private List<UserRoleEnum> roles;
 
 }

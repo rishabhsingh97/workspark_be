@@ -1,23 +1,20 @@
 package com.workspark.userservice.service;
 
 import com.workspark.models.request.SignupRequest;
-import com.workspark.models.response.BasePageRes;
-import com.workspark.models.response.SignInResponse;
-import com.workspark.userservice.model.dto.TenantUserDto;
+import com.workspark.userservice.model.dto.UserDto;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface TenantUserService {
+public interface UserService {
 
-	void addTenantUser(SignupRequest request);
+	void addUser(UserDto userDto);
 
-	BasePageRes<SignInResponse> getAllUsers(int page, int size);
+	UserDto getUser(String id);
 
-	SignInResponse getUserDetails(String key, String value);
+	Page<UserDto> getAllUsers(int page, int size);
 
-	TenantUserDto getUserDetailsById(Long id);
+	UserDto updateUser(SignupRequest request);
 
-	SignInResponse updateTenantUser(SignupRequest request);
-
-	SignInResponse deactivateTenantUser(SignupRequest request);
+	UserDto deleteUser(SignupRequest request);
 }

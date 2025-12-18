@@ -2,7 +2,7 @@ package com.workspark.certificateservice.service;
 
 import com.workspark.certificateservice.model.dto.request.TemplateReq;
 import com.workspark.certificateservice.model.dto.response.TemplateRes;
-import com.workspark.models.response.PaginatedRes;
+import com.workspark.models.response.BasePageRes;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +33,7 @@ public interface TemplateService {
      * @param size the number of templates per page
      * @return a list of all templates
      */
-    PaginatedRes<TemplateRes> getAllTemplates(int page, int size);
+    BasePageRes<TemplateRes> getAllTemplates(int page, int size);
 
     /**
      * Downloads a certificate template by its ID.

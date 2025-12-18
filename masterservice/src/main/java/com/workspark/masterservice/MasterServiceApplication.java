@@ -8,13 +8,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @SpringBootApplication
-@EnableScheduling
 @EnableDiscoveryClient
 @EnableJpaRepositories
-public class NominationServiceApplication {
+public class MasterServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(NominationServiceApplication.class, args);
+		SpringApplication.run(MasterServiceApplication.class, args);
 	}
 
 }

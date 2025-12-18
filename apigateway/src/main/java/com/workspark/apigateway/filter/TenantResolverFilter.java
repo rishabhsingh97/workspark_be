@@ -89,7 +89,6 @@ public class TenantResolverFilter implements GlobalFilter  {
         BaseRes<String> response = BaseRes.<String>builder()
                 .item(null)
                 .error("Authentication Error")
-                .message("Domain resolution error")
                 .build();
 
         log.warn("Unauthorized response: {}", "Domain resolution error");

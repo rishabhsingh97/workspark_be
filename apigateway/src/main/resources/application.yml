@@ -6,8 +6,8 @@ spring:
     gateway:
       routes:
         ## Api Routes
-        - id: authentication-api
-          uri: lb://authenticationservice
+        - id: auth-api
+          uri: lb://authservice
           predicates:
             - Path=/auth/**
 
@@ -16,24 +16,14 @@ spring:
           predicates:
             - Path=/user/**
 
-        - id: nomination-api
-          uri: lb://nominationservice
+        - id: master-api
+          uri: lb://masterservice
           predicates:
-            - Path=/nomination/**
-
-        - id: config-api
-          uri: lb://configservice
-          predicates:
-            - Path=/config/**
-
-        - id: certificate-api
-          uri: lb://certificateservice
-          predicates:
-            - Path=/certificate/**
+            - Path=/master/**
 
         ## Swagger Routes
         - id: auth-swagger
-          uri: lb://authenticationservice
+          uri: lb://authservice
           predicates:
             - Path=/swagger/auth
           filters:
@@ -46,32 +36,13 @@ spring:
           filters:
             - RewritePath=/swagger/?(?<segment>.*), /$\{segment}/public/api-docs
 
-        - id: nomination-swagger
-          uri: lb://nominationservice
+        - id: master-swagger
+          uri: lb://masterservice
           predicates:
-            - Path=/swagger/nomination
+            - Path=/swagger/master
           filters:
             - RewritePath=/swagger/?(?<segment>.*), /$\{segment}/public/api-docs
 
-        - id: config-swagger
-          uri: lb://configservice
-          predicates:
-            - Path=/swagger/config
-          filters:
-            - RewritePath=/swagger/?(?<segment>.*), /$\{segment}/public/api-docs
-
-        - id: certificate-swagger
-          uri: lb://certificateservice
-          predicates:
-            - Path=/swagger/certificate
-          filters:
-            - RewritePath=/swagger/?(?<segment>.*), /$\{segment}/public/api-docs
-
-    config:
-      label: latest
-      discovery:
-        enabled: true
-        service-id: configservice
   config:
     import: 'optional:configserver:'
 
@@ -95,14 +66,10 @@ app:
 springdoc:
   swagger-ui:
     urls:
-      - name: Authentication Service
+      - name: Auth Service
         url: /swagger/auth
       - name: User Service
         url: /swagger/user
-      - name: Nomination Service
-        url: /swagger/nomination
-      - name: Config Service
-        url: /swagger/config
-      - name: Certificate Service
-        url: /swagger/certificate
+      - name: Master Service
+        url: /swagger/master
 

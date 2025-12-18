@@ -1,6 +1,6 @@
 spring:
   application:
-    name: authenticationservice
+    name: authservice
   cloud:
     config:
       label: latest
@@ -23,8 +23,6 @@ server:
 localhost:
   url: http://localhost:8080
   description: Api Gateway - Local
-
-redirectUrl: http://localhost:4200
 
 jwt:
   secret: worksparkMindfire

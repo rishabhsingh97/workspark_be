@@ -3,12 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.6</version>
-		<relativePath /> <!-- lookup parent from repository -->
-	</parent>
 	<groupId>com.workspark</groupId>
 	<artifactId>certificateservice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -120,62 +114,4 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
-	<repositories>
-		<repository>
-			<id>gitlab-maven</id>
-			<url>https://gitlab.mindfire.co.in/api/v4/projects/1502/packages/maven</url> <!-- Replace with the actual URL of the Apriva repository -->
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.12</version>
-				<executions>
-					<execution>
-						<configuration>
-							<!-- Includes controller, service, and repository packages -->
-							<includes>
-								<include>com/workspark/certificateservice/controller/**/*</include> <!-- Controller layer -->
-								<include>com/workspark/certificateservice/service/**/*</include> <!-- Service layer -->
-								<include>com/workspark/certificateservice/repository/**/*</include> <!-- Repository layer -->
-							</includes>
-						</configuration>
-						<id>prepare-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<configuration>
-							<includes>
-								<include>com/workspark/certificateservice/controller/**/*</include> <!-- Controller layer -->
-								<include>com/workspark/certificateservice/service/**/*</include> <!-- Service layer -->
-								<include>com/workspark/certificateservice/repository/**/*</include> <!-- Repository layer -->
-							</includes>
-						</configuration>
-						<id>report</id>
-						<phase>test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-
 </project>

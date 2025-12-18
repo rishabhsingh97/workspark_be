@@ -1,6 +1,6 @@
 package com.workspark.userservice.model.dto;
 
-import com.workspark.models.enums.UserRole;
+import com.workspark.models.enums.UserRoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +17,7 @@ public class RouteDto implements Serializable {
     private Long id;
     private String path;
     private String title;
-    private List<UserRole> roles;
+    private List<UserRoleEnum> roles;
 }
 
 

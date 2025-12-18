@@ -13,7 +13,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 //@RefreshScope
 @SpringBootApplication
 @EnableDiscoveryClient
-public class ApigatewayApplication {
+public class ApiGatewayApplication {
 
     /**
      * The main method that starts the Spring Boot application.
@@ -21,6 +21,6 @@ public class ApigatewayApplication {
      * @param args Command-line arguments passed to the application.
      */
     public static void main(String[] args) {
-        SpringApplication.run(ApigatewayApplication.class, args);
+        SpringApplication.run(ApiGatewayApplication.class, args);
     }
 }
